@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\algorithm">
+      <UniqueIdentifier>{1de4dfba-8d54-4c07-9c67-ab41404753b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\past">
+      <UniqueIdentifier>{5ed0fbcb-ec54-4c78-be2a-47b63757a888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\AD">
+      <UniqueIdentifier>{9b9d6cff-9de7-444f-931f-7d0aea27d2d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -20,8 +29,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sort.h">
+    <ClInclude Include="mastgl.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="algorithm\sort.h">
+      <Filter>头文件\algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="graph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="architecture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="file.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>头文件\past</Filter>
+    </ClInclude>
+    <ClInclude Include="AlphaDiagram\ad_base.hpp">
+      <Filter>头文件\AD</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
