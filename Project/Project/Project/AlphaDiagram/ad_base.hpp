@@ -4,6 +4,8 @@
 
 #define __AlphaDiagram
 
+#include<Windows.h>
+
 #include<typeinfo>
 #include<type_traits>
 
@@ -13,6 +15,11 @@
 #include<map>
 #include<future>
 #include<vector>
+
+void SetColorAndBackground(int ForgC, int BackC) {
+	WORD wColor = ((BackC & 0x0F) << 4) + (ForgC & 0x0F);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), wColor);
+}
 
 namespace ad
 {
@@ -325,19 +332,19 @@ namespace ad
 
 	enum class error_exception
 	{
+		error_unknown = 0,
 		error_operator = 1 << 0,
 		error_generate = 1 << 1
 	};
 
 	bool ___is_generate_operator_by_object_system = false;
-	std::mutex __generate_operator_by_object_system_lock;
 
 	class _Base
 	{
 	protected:
 		_Base()
 		{
-			if (!___is_generate_operator_by_object_system)throw error_exception::error_operator;
+			_m_instance_index=_Base::_s_instance_index++;
 		}
 	public:
 		virtual ~_Base()
@@ -352,16 +359,32 @@ namespace ad
 		{
 			return universal_hash::hash_val(this);
 		}
+		size_t get_instance_index()
+		{
+			return  _m_instance_index;
+		}
 
 	private:
+		static size_t _s_instance_index;
 		size_t _m_instance_index = 0;
 	};
+
+	size_t _Base::_s_instance_index=0;
 	
 	template<class T>
 	class _BaseGenerator
 	{
 		static_assert(std::is_base_of_v<_Base, T>, "Invalid template parameters");
 	public:
+		~_BaseGenerator()
+		{
+			for (auto i= _m_line.begin(),e=_m_line.end(); i !=e; i++)
+			{
+				delete *i;
+			}
+			
+		}
+
 		template<typename ..._Args>
 		T* generate(_Args... args)
 		{
@@ -369,7 +392,7 @@ namespace ad
 			___is_generate_operator_by_object_system = true;
 			{
 				std::unique_lock<std::mutex> lock(__generate_operator_by_object_system_lock);
-				cat = new T(args);
+				cat = new T(args...);
 			}
 			___is_generate_operator_by_object_system = false;
 			init(cat);
